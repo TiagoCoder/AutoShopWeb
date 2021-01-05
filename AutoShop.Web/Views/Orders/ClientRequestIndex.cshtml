@@ -1,0 +1,93 @@
+﻿@model IEnumerable<AutoShop.Web.Models.Orders.IndexViewModel>
+
+@{ ViewData["Title"] = "Requested Orders"; }
+
+<h2>Requested Orders</h2>
+
+<table class=" table">
+    <thead>
+        <tr>
+            <td>
+                <a asp-action="Create" class="btn btn-success">Create New</a>
+            </td>
+        </tr>
+    </thead>
+</table>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsApproved)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeliveryDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ServicesQtd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(model => item.Id)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.IsApproved)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.OrderDate)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.DeliveryDate)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Registration)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Brand)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Model)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Year)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.ServicesQtd)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Price)
+    </td>
+    <td>
+        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+    </td>
+</tr>}
+    </tbody>
+</table>
+
+<a asp-action="ClientIndex" class="btn btn-primary">Back</a>

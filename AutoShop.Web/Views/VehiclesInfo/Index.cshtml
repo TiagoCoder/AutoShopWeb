@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AutoShop.Web.Data.Entities.VehicleInfo>
+
+@{ ViewData["Title"] = "Index"; }
+
+<h2>Index</h2>
+
+@if (this.User.Identity.IsAuthenticated && (this.User.IsInRole("Employee") || this.User.IsInRole("Admin")))
+{
+<p>
+    <a asp-action="Create">Create New</a>
+</p>}
+
+<div class="control-section">
+    <ejs-grid id="Grid" dataSource="@Model" allowExcelExport="true" allowGrouping="true" allowPdfExport="true" toolbarClick="toolbarClick" toolbar="@(new List<string>() {"ExcelExport", "PdfExport", "CsvExport" })" allowPaging="true">
+
+
+        <e-grid-pagesettings pageCount="5"></e-grid-pagesettings>
+        <e-grid-columns>
+            <e-grid-column field="Brand" headerText="Brand" width="150"></e-grid-column>
+            <e-grid-column field="Model" headerText="Model" width="150"></e-grid-column>
+            <e-grid-column field="Year" headerText="Model Year" width="150"></e-grid-column>
+        </e-grid-columns>
+
+
+    </ejs-grid>
+</div>
+
+<script>
+
+    function toolbarClick(args) {
+        var gridObj = document.getElementById("Grid").ej2_instances[0];
+        if (args.item.id === 'Grid_pdfexport') {
+            gridObj.pdfExport();
+        }
+        if (args.item.id === 'Grid_excelexport') {
+            gridObj.excelExport();
+        }
+        if (args.item.id === 'Grid_csvexport') {
+            gridObj.csvExport();
+        }
+    }
+</script>

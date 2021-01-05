@@ -1,0 +1,115 @@
+﻿@model AutoShop.Web.Models.ClientVehicle.CreateViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create New Vehicle</h2>
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div>
+                @ViewBag.Message
+            </div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Registration" class="control-label">Registration</label>
+                <input asp-for="Registration" class="form-control" />
+                <span asp-validation-for="Registration" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SelectedBrand" class="control-label">Brand</label>
+                <select asp-for="SelectedBrand" asp-items="Model.Brands" class="form-control"></select>
+                <span asp-validation-for="SelectedBrand" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SelectedModel" class="control-label">Model</label>
+                <select asp-for="SelectedModel" asp-items="Model.Models" class="form-control"></select>
+                <span asp-validation-for="SelectedModel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SelectedYear" class="control-label">Model Year</label>
+                <select asp-for="SelectedYear" asp-items="Model.Years" class="form-control"></select>
+                <span asp-validation-for="SelectedYear" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Color" class="control-label">Color</label>
+                <input asp-for="Color" class="form-control" />
+                <span asp-validation-for="Color" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#SelectedBrand").change(function () {
+                $("#SelectedModel").empty();
+                $("#SelectedYear").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetModelsAsync")',
+                    dataType: 'json',
+                    data: { selectedBrand: $("#SelectedBrand option:selected").text() },
+                    success: function (models) {
+                        $("#SelectedModel").append('<option value="0">(Select a Model...)</option>');
+                        $.each(models, function (i, model) {
+                            $("#SelectedModel").append('<option value="'
+                                + model.value + '">'
+                                + model.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve models.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#SelectedModel").change(function () {
+                $("#SelectedYear").empty();
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("GetModelYearsAsync")',
+                    dataType: 'json',
+                    data: { selectedModel: $("#SelectedModel option:selected").text() },
+                    success: function (years) {
+                        $("#SelectedYear").append('<option value="0">(Select a Model Year...)</option>');
+                        $.each(years, function (i, year) {
+                            console.log(year);
+                            console.log(years);
+                            $("#SelectedYear").append('<option value="'
+                                + year.value + '">'
+                                + year.text + '</option>');
+                        });
+                    },
+                    error: function (ex) {
+                        alert('Failed to retrieve model years.' + ex);
+                    }
+                });
+                return false;
+            })
+        });
+    </script>
+}
+

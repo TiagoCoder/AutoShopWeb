@@ -1,0 +1,25 @@
+﻿@model AutoShop.Web.Models.Orders.ApproveOrderViewModel
+
+@{
+    ViewData["Title"] = "Approve Order";
+ }
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ApproveOrder">
+            <div class="text-success">
+                @ViewBag.Message
+            </div>
+            <input hidden asp-for="OrderId" />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DeliveryDate" class="control-label"></label>
+                <input asp-for="DeliveryDate" value="@DateTime.Now" class="form-control" />
+                <span asp-validation-for="DeliveryDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Approve" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>

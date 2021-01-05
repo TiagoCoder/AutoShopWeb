@@ -1,0 +1,52 @@
+﻿@model IEnumerable<AutoShop.Web.Models.Orders.DetailsViewModel>
+
+@{ ViewData["Title"] = "Order Details"; }
+
+<h2>Order Details</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Qtd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalPrice)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(model => item.Description)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Price)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Qtd)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.TotalPrice)
+    </td>
+</tr>
+}
+    </tbody>
+</table>
+
+@if (User.IsInRole("Client"))
+{
+<a asp-action="ClientIndex">Back</a>
+}
+else
+{
+<a asp-action="Index">Back</a>
+}

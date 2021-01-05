@@ -1,0 +1,33 @@
+﻿@model IEnumerable<AutoShop.Web.Models.Role.IndexViewModel>
+
+@{ ViewData["Title"] = "Roles Index"; }
+
+<h2>Roles Index</h2>
+
+<a asp-action="Create">Create New</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Role)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfUsers)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfUsers)
+            </td>
+        </tr>}
+    </tbody>
+</table>
+

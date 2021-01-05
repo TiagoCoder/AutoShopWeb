@@ -1,0 +1,94 @@
+﻿@model AutoShop.Web.Models.Orders.CreateViewModel
+@{
+    ViewData["Title"] = "Create";
+}
+@using Newtonsoft.Json
+
+<h2>Place Order</h2>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form method="post" asp-action="Create">
+            <h3>Select Vehicle</h3>
+            <ejs-combobox id="clientVehicles" open="isCheckScroll" dataBound="isCheckScroll" dataSource="@ViewBag.Data" cssClass="e-multi-column" filtering="onfiltering" allowFiltering="true" placeholder="Select a vehicle" popupHeight="400px" ejs-for="@Model.Registration"
+                          headerTemplate="@Html.Raw("<table><tr><th class=\"e-text-center\" style=\"width: 100px;\"<th>Registration</th><th>Brand</th><th>Model</th><th>Model Year</th></tr></table>")"
+                          itemTemplate="@Html.Raw("<table><tbody><tr><td class=\"e-text-center\" style=\"width: 100px;\">${Registration}</td><td>${VehicleInfo.Brand}</td><td>${VehicleInfo.Model}</td><td>${VehicleInfo.Year}</td></tr> </tbody></table>")">
+                <e-combobox-fields text="Registration" value="Registration"></e-combobox-fields>
+            </ejs-combobox>
+            <h3>Select Services</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Selected
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                        <th>
+                            Price
+                        </th>
+                        <th>
+                            Quantity
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i =0; i < Model.Services.Count(); i++)
+                    {
+        <tr>
+            <td>
+                <input type="hidden" asp-for="@Model.Services[i].Service.Id" />
+                <input type="hidden" asp-for="@Model.Services[i].Service.Description" />
+                <input type="hidden" asp-for="@Model.Services[i].Service.Price" />
+
+                <input asp-for="@Model.Services[i].Selected" type="checkbox" />
+            </td>
+            <td>
+                <label>@Model.Services[i].Service.Description</label>
+            </td>
+            <td>
+                <label>@Model.Services[i].Service.Price</label>
+            </td>
+            <td>
+              <input asp-for="@Model.Services[i].Qtd" type="number" required/>
+            </td>
+        </tr>
+}
+                </tbody>
+            </table>
+            <div class="form-group">
+                <label asp-for="OrderDate" class="control-label"></label>
+                <input asp-for="OrderDate" value="@DateTime.Now" class="form-control" />
+                <span asp-validation-for="OrderDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <a asp-action="ClientIndex" class="btn btn-primary">Back</a>
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    h3 {
+        margin: 40px auto 40px auto;
+    }
+</style>
+
+<script type="text/javascript">
+        function onfiltering(e) {
+            var query = new ej.data.Query().select(['Registration', 'VehicleInfo.Brand', 'VehicleInfo.Model','VehicleInfo.Year']);
+            var predicateQuery = query.where(new ej.data.Predicate('Registration', 'contains', e.text, true).or('VehicleInfo.Brand', 'contains', e.text, true).or('VehicleInfo.Model', 'contains', e.text, true).or('VehicleInfo.ear', 'contains', e.text, true));
+            query = (e.text !== '') ? predicateQuery : query;
+            e.updateData(@Html.Raw(JsonConvert.SerializeObject(ViewBag.data)), query);
+            isCheckScroll.call(this);
+        }
+        function isCheckScroll() {
+            if (this.popupObj && this.popupObj.element && this.liCollections.length > 0) {
+                var offsetHeight = this.popupObj.element.querySelector('.e-content').offsetHeight;
+                var contentHight = (offsetHeight < this.liCollections[0].offsetHeight * this.liCollections.length);
+                (contentHight || offsetHeight === 0) ? this.popupObj.element.classList.add('e-scroller') : this.popupObj.element.classList.remove('e-scroller');
+            }
+        }
+</script>

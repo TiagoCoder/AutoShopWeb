@@ -1,0 +1,77 @@
+﻿@model IEnumerable<AutoShop.Web.Data.Entities.ClientVehicle>
+
+@{ ViewData["Title"] = "Vehicles List"; }
+
+<h2>Vehicles List</h2>
+
+@if (User.IsInRole("Client"))
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            @if (!User.IsInRole("Client"))
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.ClientId)
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.Registration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleInfo.Brand)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleInfo.Model)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VehicleInfo.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Color)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+<tr>
+    <td>
+        @Html.DisplayFor(model => item.Id)
+    </td>
+    @if (!User.IsInRole("Client"))
+    {
+        <td>
+            @Html.DisplayFor(model => item.ClientId)
+        </td>
+    }
+    <td>
+        @Html.DisplayFor(model => item.Registration)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.VehicleInfo.Brand)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.VehicleInfo.Model)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.VehicleInfo.Year)
+    </td>
+    <td>
+        @Html.DisplayFor(model => item.Color)
+    </td>
+    <td>
+        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+    </td>
+</tr>
+}
+    </tbody>
+</table>
